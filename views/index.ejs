@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Todo List</title>
+</head>
+<style>
+    .main_box {
+        width: 20%;
+        margin: auto;
+    }
+
+    .input_sec {
+        display: none;
+    }
+    h1{
+        text-align: center;
+    }
+</style>
+
+<body>
+    <div class="main_box">
+        <h1>Todo List</h1>
+        <hr>
+        <form action="/" method="POST" autocomplete="off">
+            <input type="text" required name="todoValue" placeholder="Enter Task" id="">
+            <button type="submit">Add</button>
+        </form>
+        <hr>
+        <% if(data){ %>
+            <% data.forEach(todoValue=> { %>
+                <ul>
+                    <li>
+                        <div class="input_sec">
+                            <input type="text" value="<%= todoValue.todo %>" id="<%= todoValue.id %>"
+                            name="updatedtodoValue">
+                            <button class="todo-update <%= todoValue.id %>"> Update</button>
+                        </div>
+                        <div id="other_sec<%= todoValue.id %>">
+                                <%= todoValue.todo %>
+                            <button class="todo-edit <%= todoValue.id %>"> Edit</button>
+                            <button class="todo-delete <%= todoValue.id %>"> Delete</button>
+                        </div>
+                    </li>
+                </ul>
+                <% }) %>
+                    <% } %>
+    </div>
+</body>
+
+<script>
+    const deleteButton = document.querySelectorAll(".todo-delete")
+    deleteButton.forEach((button, i) => {
+        button.addEventListener("click", () => {
+            const endpoint = `/${button.classList[1]}`
+            console.log(endpoint);
+            fetch(endpoint, {
+                method: "DELETE"
+            })
+            window.location.href = "/";
+        })
+    })
+    const updateButton = document.querySelectorAll(".todo-update")
+    updateButton.forEach((button, i) => {
+        button.addEventListener("click", () => {
+            const endpoint = `${button.classList[1]}`
+            const input_field = document.getElementById(endpoint).value;
+            const endpointsend = `/${button.classList[1]}`
+            fetch(endpointsend, {
+                method: "PUT",
+                body: JSON.stringify({
+                    value: input_field,
+                }),
+                headers: {
+                    'Content-type': 'application/json; charset=UTF-8'
+                }
+            })
+            window.location.href = "/";
+        })
+        })
+        const editButton = document.querySelectorAll(".todo-edit")
+        editButton.forEach((button, i) => {
+            button.addEventListener("click", () => {
+                const endpoint = `${button.classList[1]}`
+                const other_sec = document.getElementById("other_sec"+endpoint);
+                console.log(other_sec);
+                const input_field = document.getElementById(endpoint)
+                input_field.parentElement.style.display = 'block';
+                other_sec.style.display = 'none';
+            })
+        })
+</script>
+
+</html>
