@@ -55,8 +55,7 @@
     const deleteButton = document.querySelectorAll(".todo-delete")
     deleteButton.forEach((button, i) => {
         button.addEventListener("click", () => {
-            const endpoint = `/${button.classList[1]}`
-            console.log(endpoint);
+            const endpoint = `/${button.classList[1]}`;
             fetch(endpoint, {
                 method: "DELETE"
             })
@@ -72,7 +71,7 @@
             fetch(endpointsend, {
                 method: "PUT",
                 body: JSON.stringify({
-                    value: input_field,
+                    todoValue: input_field,
                 }),
                 headers: {
                     'Content-type': 'application/json; charset=UTF-8'
@@ -86,7 +85,6 @@
             button.addEventListener("click", () => {
                 const endpoint = `${button.classList[1]}`
                 const other_sec = document.getElementById("other_sec"+endpoint);
-                console.log(other_sec);
                 const input_field = document.getElementById(endpoint)
                 input_field.parentElement.style.display = 'block';
                 other_sec.style.display = 'none';
