@@ -1,20 +1,22 @@
 const Todo = require('../models/todo');
+const Joi = require('joi');
+const todoSchema = require('../schemas/TodoSchemas');
 
 module.exports = {
     post: (req, res) => {
-        const todo = new Todo({
+               const todo = new Todo({
             todo: req.body.todoValue
         })
         todo.save()
             .then(result => {
                 res.send({ success: true, data: result, message: 'Record Added Successfully' })
-            }).catch(err=>{
-                console.log("=======",err);
+            }).catch(err => {
+                console.log("=======", err);
             })
     },
     get: (req, res) => {
         Todo.find()
-        .then(result => {
+            .then(result => {
                 res.send({ success: true, data: result, message: 'Record Fetch Successfully' })
             })
     },

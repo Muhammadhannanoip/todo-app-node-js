@@ -1,8 +1,10 @@
 const express = require('express');
 const router = express.Router();
 const controller = require('../controllers/TodoController');
+const todoSchema = require('../schemas/TodoSchemas');
+const middleware = require('../middlewares/TodoMiddleware');
 
-router.post('/',controller.post);
+router.post('/',middleware(todoSchema),controller.post);
 router.get('/',controller.get);
 router.put('/:id',controller.put);
 router.delete('/:id',controller.delete);
