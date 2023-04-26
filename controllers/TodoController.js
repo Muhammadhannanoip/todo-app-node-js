@@ -1,10 +1,11 @@
 const Todo = require('../models/todo');
 const Joi = require('joi');
 const todoSchema = require('../schemas/TodoSchemas');
+const asyncHandler = require('express-async-handler')
 
 module.exports = {
-    post: (req, res) => {
-               const todo = new Todo({
+    post: asyncHandler(async (req, res) => {
+        const todo = await new Todo({
             todo: req.body.todoValue
         })
         todo.save()
@@ -13,13 +14,13 @@ module.exports = {
             }).catch(err => {
                 console.log("=======", err);
             })
-    },
-    get: (req, res) => {
-        Todo.find()
+    }),
+    get: asyncHandler(async (req, res) => {
+        constdata = await Todo.find()
             .then(result => {
                 res.send({ success: true, data: result, message: 'Record Fetch Successfully' })
             })
-    },
+    }),
     put: (req, res) => {
         Todo.findByIdAndUpdate(req.params.id, { todo: req.body.todoValue })
             .then(result => {
